@@ -184,6 +184,7 @@ services:
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ${UPLOAD_PATH_HOST}:${UPLOAD_PATH_CONTAINER}
       expose:
         - "9000"
       extra_hosts:
@@ -217,6 +218,7 @@ services:
           - PGID=${PHP_WORKER_PGID}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ${UPLOAD_PATH_HOST}:${UPLOAD_PATH_CONTAINER}
         - ./php-worker/supervisord.d:/etc/supervisord.d
       depends_on:
         - workspace
@@ -235,6 +237,7 @@ services:
           - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ${UPLOAD_PATH_HOST}:${UPLOAD_PATH_CONTAINER}
         - ./laravel-horizon/supervisord.d:/etc/supervisord.d
       depends_on:
         - workspace
@@ -253,6 +256,7 @@ services:
           - CHANGE_SOURCE=${CHANGE_SOURCE}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ${UPLOAD_PATH_HOST}:${UPLOAD_PATH_CONTAINER}
         - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
         - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
         - ${NGINX_SSL_PATH}:/etc/nginx/ssl
@@ -287,6 +291,7 @@ services:
           - DOCUMENT_ROOT=${APACHE_DOCUMENT_ROOT}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ${UPLOAD_PATH_HOST}:${UPLOAD_PATH_CONTAINER}
         - ${APACHE_HOST_LOG_PATH}:/var/log/apache2
         - ${APACHE_SITES_PATH}:/etc/apache2/sites-available
       ports:
@@ -303,6 +308,7 @@ services:
       build: ./hhvm
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ${UPLOAD_PATH_HOST}:${UPLOAD_PATH_CONTAINER}
       expose:
         - "9000"
       depends_on:
@@ -556,6 +562,7 @@ services:
       build: ./caddy
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ${UPLOAD_PATH_HOST}:${UPLOAD_PATH_CONTAINER}
         - ${CADDY_CONFIG_PATH}:/etc/caddy
         - ${CADDY_HOST_LOG_PATH}:/var/log/caddy
         - ${DATA_PATH_HOST}:/root/.caddy
@@ -1054,6 +1061,7 @@ services:
       privileged: true
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ${UPLOAD_PATH_HOST}:${UPLOAD_PATH_CONTAINER}
       expose:
         - 2375
       networks:
