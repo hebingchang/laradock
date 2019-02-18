@@ -123,6 +123,24 @@ services:
       links:
         - docker-in-docker
 
+### xunsearch ##############################################
+    xunsearch:
+      build:
+        context: ./xunsearch
+      volumes:
+        - ./xunsearch/data:/usr/local/xunsearch/data
+      expose:
+        - "8383"
+        - "8384"
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      depends_on:
+        - workspace
+      networks:
+        - backend
+      links:
+        - docker-in-docker
+
 ### PHP-FPM ##############################################
     php-fpm:
       build:
