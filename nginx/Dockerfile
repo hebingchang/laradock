@@ -21,9 +21,14 @@ RUN apk update \
 ARG PHP_UPSTREAM_CONTAINER=php-fpm
 ARG PHP_UPSTREAM_PORT=9000
 
+ARG WORKSPACE_UPSTREAM_CONTAINER=workspace
+ARG WORKSPACE_UPSTREAM_PORT=1215
+
 # Set upstream conf and remove the default conf
 RUN echo "upstream php-upstream { server ${PHP_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" > /etc/nginx/conf.d/upstream.conf \
     && rm /etc/nginx/conf.d/default.conf
+
+RUN echo "upstream swoole-upstream { server ${WORKSPACE_UPSTREAM_CONTAINER}:${WORKSPACE_UPSTREAM_PORT}; }" >> /etc/nginx/conf.d/upstream.conf
 
 ADD ./startup.sh /opt/startup.sh
 RUN sed -i 's/\r//g' /opt/startup.sh
